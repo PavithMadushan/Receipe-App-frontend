@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 const Header = () => {
-  // We'll add auth logic later
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = false; // Placeholder
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -18,8 +20,8 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Navigation */}
-          <nav className="flex items-center space-x-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
             <Link 
               to="/" 
               className="text-gray-700 hover:text-green-500 font-medium transition-colors"
@@ -40,8 +42,8 @@ const Header = () => {
             </Link>
           </nav>
 
-          {/* User Profile / Login */}
-          <div className="flex items-center">
+          {/* Desktop User Profile / Login */}
+          <div className="hidden md:flex items-center">
             {isLoggedIn ? (
               <button className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
                 <span className="text-gray-600 font-medium">U</span>
@@ -55,7 +57,59 @@ const Header = () => {
               </Link>
             )}
           </div>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden py-4 border-t border-gray-200">
+            <nav className="flex flex-col space-y-4">
+              <Link 
+                to="/" 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+              >
+                Home
+              </Link>
+              <Link 
+                to="/favorites"
+                onClick={() => setIsMenuOpen(false)} 
+                className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+              >
+                Favourite
+              </Link>
+              <Link 
+                to="/help"
+                onClick={() => setIsMenuOpen(false)} 
+                className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+              >
+                Help
+              </Link>
+              <div className="pt-4 border-t border-gray-200">
+                {isLoggedIn ? (
+                  <button className="w-full flex items-center justify-center gap-2 py-2 bg-gray-200 rounded-lg">
+                    <span className="text-gray-600 font-medium">Profile</span>
+                  </button>
+                ) : (
+                  <Link 
+                    to="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block text-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                  >
+                    Login
+                  </Link>
+                )}
+              </div>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );

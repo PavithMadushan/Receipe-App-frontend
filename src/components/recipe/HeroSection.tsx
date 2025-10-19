@@ -16,7 +16,6 @@ const HeroSection = () => {
           transition={{ delay: 0.3, duration: 0.6 }}
         >
           <p className="text-sm uppercase tracking-wide mb-2">Trending Recipe</p>
-          <p className='text-9xl'>Hiiiiiiii</p>
           <h1 className="text-4xl font-bold mb-2">Mike's famous salad</h1>
           <p className="text-sm mb-4">By John Mike</p>
           <div className="flex items-center space-x-4">

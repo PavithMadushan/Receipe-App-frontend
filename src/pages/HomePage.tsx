@@ -3,6 +3,7 @@ import HeroSection from '../components/recipe/HeroSection';
 import CategoryFilter from '../components/recipe/CategoryFilter';
 import RecipeGrid from '../components/recipe/RecipeGrid';
 import Loader from '../components/common/Loader';
+import Footer from '../components/common/Footer';
 import { fetchCategories, fetchRecipesByCategory } from '../services/recipeService';
 import type { Category, Recipe } from '../types/recipe';
 
@@ -68,45 +69,47 @@ const HomePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-red-500 text-white p-4 text-2xl font-bold">
-  If you see red background, Tailwind is working!
-</div>
-        {/* Hero Section */}
-        <HeroSection />
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="flex-1">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Hero Section */}
+          <HeroSection />
 
-        {/* Category Filter */}
-        <CategoryFilter 
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
+          {/* Category Filter */}
+          <CategoryFilter 
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectCategory={setSelectedCategory}
+          />
 
-        {/* Recipe Grid */}
-        {loadingRecipes ? (
-          <Loader />
-        ) : (
-          <>
-            <RecipeGrid 
-              recipes={recipes}
-              onFavoriteClick={handleFavoriteClick}
-            />
+          {/* Recipe Grid */}
+          {loadingRecipes ? (
+            <Loader />
+          ) : (
+            <>
+              <RecipeGrid 
+                recipes={recipes}
+                onFavoriteClick={handleFavoriteClick}
+              />
 
-            {/* Load More Button */}
-            {recipes.length > 0 && (
-              <div className="mt-12 flex justify-center">
-                <button
-                  onClick={handleLoadMore}
-                  className="px-8 py-3 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition-colors"
-                >
-                  Load More
-                </button>
-              </div>
-            )}
-          </>
-        )}
+              {/* Load More Button */}
+              {recipes.length > 0 && (
+                <div className="mt-12 flex justify-center mb-8">
+                  <button
+                    onClick={handleLoadMore}
+                    className="px-8 py-3 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                  >
+                    Load More
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
