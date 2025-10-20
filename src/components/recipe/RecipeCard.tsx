@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Recipe } from '../../types/recipe';
 
 interface RecipeCardProps {
@@ -10,6 +11,11 @@ interface RecipeCardProps {
 
 const RecipeCard = ({ recipe, onFavoriteClick, isFavorite = false }: RecipeCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/recipe/${recipe.idMeal}`);
+  };
 
   return (
     <motion.div
@@ -19,6 +25,7 @@ const RecipeCard = ({ recipe, onFavoriteClick, isFavorite = false }: RecipeCardP
       transition={{ duration: 0.3 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleCardClick}
       className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition-shadow"
     >
       {/* Recipe Image */}

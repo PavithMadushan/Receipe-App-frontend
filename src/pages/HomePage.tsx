@@ -4,6 +4,7 @@ import CategoryFilter from '../components/recipe/CategoryFilter';
 import RecipeGrid from '../components/recipe/RecipeGrid';
 import Loader from '../components/common/Loader';
 import Footer from '../components/common/Footer';
+import AuthPopup from '../components/auth/AuthPopup';
 import { fetchCategories, fetchRecipesByCategory } from '../services/recipeService';
 import type { Category, Recipe } from '../types/recipe';
 
@@ -13,6 +14,7 @@ const HomePage = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingRecipes, setLoadingRecipes] = useState(false);
+  const [showAuthPopup, setShowAuthPopup] = useState(false);
 
   // Fetch categories on mount
   useEffect(() => {
@@ -50,13 +52,12 @@ const HomePage = () => {
   }, [selectedCategory]);
 
   const handleFavoriteClick = (recipe: Recipe) => {
-    // For now, just log - we'll implement this with auth later
     console.log('Favorite clicked:', recipe.strMeal);
-    alert('Login required to add favorites!');
+    // Show auth popup instead of alert
+    setShowAuthPopup(true);
   };
 
   const handleLoadMore = () => {
-    // Placeholder for load more functionality
     console.log('Load more clicked');
   };
 
@@ -72,7 +73,7 @@ const HomePage = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <div className="flex-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Hero Section */}
+          {/* Hero Section with Slideshow */}
           <HeroSection />
 
           {/* Category Filter */}
@@ -110,6 +111,9 @@ const HomePage = () => {
       
       {/* Footer */}
       <Footer />
+
+      {/* Auth Popup */}
+      <AuthPopup isOpen={showAuthPopup} onClose={() => setShowAuthPopup(false)} />
     </div>
   );
 };
