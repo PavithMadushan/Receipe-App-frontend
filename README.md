@@ -18,3 +18,10 @@
 <ul align="left"> <li><b>Color Palette</b> <ul> <li>Primary Orange: #f97316 - Warm and appetizing</li> <li>Primary Green: #22c55e - Fresh and healthy</li> <li>Accent Red: #ef4444 - Energy and passion</li> <li>Gradients: Multi-color smooth transitions</li> </ul> </li> <li><b>Animations</b> <ul> <li>✨ Smooth page transitions</li> <li>🎭 Card hover effects</li> <li>📍 Tab switching animations</li> <li>🎪 Hero carousel with swipe gestures</li> </ul> </li> </ul>
 <h2 align="left">📱 Responsive Design</h2>
 <ul align="left"> <li>📱 Mobile devices (320px - 767px)</li> <li>📲 Tablets (768px - 1023px)</li> <li>💻 Desktop (1024px+)</li> <li>🖥️ Large screens (1920px+)</li> </ul>
+<br/>
+<img width="453" height="678" alt="login" src="https://github.com/user-attachments/assets/cb787b9a-9433-48ac-a12d-0d40dbd59062" />
+<br/>
+<img width="536" height="864" alt="landing page" src="https://github.com/user-attachments/assets/991ca9e2-bb65-462b-a513-ce3f8267243c" />
+<br/>
+
+<img width="526" height="861" alt="popup" src="https://github.com/user-attachments/assets/02b5ded5-afde-4f6a-98d7-23d016d8bd79" />
