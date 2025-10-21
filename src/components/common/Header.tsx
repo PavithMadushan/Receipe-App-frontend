@@ -1,10 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
   const isLoggedIn = false; // Placeholder
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -24,21 +29,42 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link 
               to="/" 
-              className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+              className={`font-medium transition-colors relative ${
+                isActive('/') 
+                  ? 'text-green-500' 
+                  : 'text-gray-700 hover:text-green-500'
+              }`}
             >
               Home
+              {isActive('/') && (
+                <span className="absolute -bottom-4 left-0 right-0 h-0.5 bg-green-500"></span>
+              )}
             </Link>
             <Link 
               to="/favorites" 
-              className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+              className={`font-medium transition-colors relative ${
+                isActive('/favorites') 
+                  ? 'text-green-500' 
+                  : 'text-gray-700 hover:text-green-500'
+              }`}
             >
               Favourite
+              {isActive('/favorites') && (
+                <span className="absolute -bottom-4 left-0 right-0 h-0.5 bg-green-500"></span>
+              )}
             </Link>
             <Link 
               to="/help" 
-              className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+              className={`font-medium transition-colors relative ${
+                isActive('/help') 
+                  ? 'text-green-500' 
+                  : 'text-gray-700 hover:text-green-500'
+              }`}
             >
               Help
+              {isActive('/help') && (
+                <span className="absolute -bottom-4 left-0 right-0 h-0.5 bg-green-500"></span>
+              )}
             </Link>
           </nav>
 
@@ -74,21 +100,33 @@ const Header = () => {
               <Link 
                 to="/" 
                 onClick={() => setIsMenuOpen(false)}
-                className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+                className={`font-medium transition-colors ${
+                  isActive('/') 
+                    ? 'text-green-500' 
+                    : 'text-gray-700 hover:text-green-500'
+                }`}
               >
                 Home
               </Link>
               <Link 
                 to="/favorites"
                 onClick={() => setIsMenuOpen(false)} 
-                className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+                className={`font-medium transition-colors ${
+                  isActive('/favorites') 
+                    ? 'text-green-500' 
+                    : 'text-gray-700 hover:text-green-500'
+                }`}
               >
                 Favourite
               </Link>
               <Link 
                 to="/help"
                 onClick={() => setIsMenuOpen(false)} 
-                className="text-gray-700 hover:text-green-500 font-medium transition-colors"
+                className={`font-medium transition-colors ${
+                  isActive('/help') 
+                    ? 'text-green-500' 
+                    : 'text-gray-700 hover:text-green-500'
+                }`}
               >
                 Help
               </Link>

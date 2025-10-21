@@ -239,10 +239,10 @@ const LoginPage = () => {
           <p className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{' '}
             <Link
-              to="/login"
+              to="/register"
               className="text-orange-500 hover:text-orange-600 font-semibold"
             >
-              Sign in
+              Sign up
             </Link>
           </p>
         </motion.div>

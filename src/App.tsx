@@ -15,15 +15,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           
           {/* Routes with Header */}
-          <Route path="*" element={
-            <>
-              <Header />
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/recipe/:id" element={<RecipeDetailPage />} />
-              </Routes>
-            </>
-          } />
+          <Route path="/" element={<><Header /><HomePage /></>} />
+          <Route path="/recipe/:id" element={<><Header /><RecipeDetailPage /></>} />
         </Routes>
       </div>
     </Router>
