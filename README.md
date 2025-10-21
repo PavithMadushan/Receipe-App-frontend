@@ -13,15 +13,24 @@
 <h2 align="left">📜 Available Scripts</h2>
 <table> <tr> <th>Script</th> <th>Description</th> </tr> <tr> <td>npm run dev</td> <td>Start development server</td> </tr> <tr> <td>npm run build</td> <td>Build for production</td> </tr> <tr> <td>npm run lint</td> <td>Run ESLint</td> </tr> <tr> <td>npm run preview</td> <td>Preview production build</td> </tr> </table>
 <h2 align="left">🗂️ Project Structure</h2>
-<pre> src/ ├── assets/ # Images, icons, static files ├── components/ # Reusable UI components │ ├── common/ # Header, Footer, Loader, etc. │ ├── recipe/ # Recipe-related components │ └── auth/ # Authentication components ├── pages/ # Page components │ ├── HomePage.tsx │ ├── RecipeDetailPage.tsx │ ├── LoginPage.tsx │ └── RegisterPage.tsx ├── services/ # API service functions ├── types/ # TypeScript type definitions ├── utils/ # Helper functions & constants ├── App.tsx # Main app component └── main.tsx # App entry point </pre>
+
+```
+src/ ├── assets/ # Images, icons, static files ├── components/ # Reusable UI components │ ├── common/ # Header, Footer, Loader, etc. │ ├── recipe/ # Recipe-related components │ └── auth/ # Authentication components ├── pages/ # Page components │ ├── HomePage.tsx │ ├── RecipeDetailPage.tsx │ ├── LoginPage.tsx │ └── RegisterPage.tsx ├── services/ # API service functions ├── types/ # TypeScript type definitions ├── utils/ # Helper functions & constants ├── App.tsx # Main app component └── main.tsx # App entry point 
+```
+
 <h2 align="left">🎨 Design Features</h2>
 <ul align="left"> <li><b>Color Palette</b> <ul> <li>Primary Orange: #f97316 - Warm and appetizing</li> <li>Primary Green: #22c55e - Fresh and healthy</li> <li>Accent Red: #ef4444 - Energy and passion</li> <li>Gradients: Multi-color smooth transitions</li> </ul> </li> <li><b>Animations</b> <ul> <li>✨ Smooth page transitions</li> <li>🎭 Card hover effects</li> <li>📍 Tab switching animations</li> <li>🎪 Hero carousel with swipe gestures</li> </ul> </li> </ul>
 <h2 align="left">📱 Responsive Design</h2>
 <ul align="left"> <li>📱 Mobile devices (320px - 767px)</li> <li>📲 Tablets (768px - 1023px)</li> <li>💻 Desktop (1024px+)</li> <li>🖥️ Large screens (1920px+)</li> </ul>
 <br/>
+<br/>
 <img width="453" height="678" alt="login" src="https://github.com/user-attachments/assets/cb787b9a-9433-48ac-a12d-0d40dbd59062" />
+<br/>
+<br/>
+<img width="444" height="795" alt="registration" src="https://github.com/user-attachments/assets/524803f9-1852-42a9-b0f2-f3c65f517386" />
+<br/>
 <br/>
 <img width="536" height="864" alt="landing page" src="https://github.com/user-attachments/assets/991ca9e2-bb65-462b-a513-ce3f8267243c" />
 <br/>
-
+<br/>
 <img width="526" height="861" alt="popup" src="https://github.com/user-attachments/assets/02b5ded5-afde-4f6a-98d7-23d016d8bd79" />
