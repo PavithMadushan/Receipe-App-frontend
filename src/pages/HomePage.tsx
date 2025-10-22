@@ -1,3 +1,4 @@
+// src/pages/HomePage.tsx
 import { useState, useEffect } from 'react';
 import HeroSection from '../components/recipe/HeroSection';
 import CategoryFilter from '../components/recipe/CategoryFilter';
@@ -6,6 +7,8 @@ import Loader from '../components/common/Loader';
 import Footer from '../components/common/Footer';
 import AuthPopup from '../components/auth/AuthPopup';
 import { fetchCategories, fetchRecipesByCategory } from '../services/recipeService';
+import { addToFavorites, getFavorites } from '../services/favoritesService';
+import { isAuthenticated } from '../services/authService';
 import type { Category, Recipe } from '../types/recipe';
 
 const HomePage = () => {
@@ -15,6 +18,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [loadingRecipes, setLoadingRecipes] = useState(false);
   const [showAuthPopup, setShowAuthPopup] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
 
   // Fetch categories on mount
   useEffect(() => {
@@ -30,6 +34,24 @@ const HomePage = () => {
     };
 
     loadCategories();
+  }, []);
+
+  // Fetch user's favorites if authenticated
+  useEffect(() => {
+    const loadFavorites = async () => {
+      if (isAuthenticated()) {
+        try {
+          console.log('Loading user favorites...');
+          const favorites = await getFavorites();
+          console.log('Favorites loaded:', favorites);
+          setFavoriteIds(favorites.map(fav => fav.mealId));
+        } catch (error) {
+          console.error('Failed to load favorites:', error);
+        }
+      }
+    };
+
+    loadFavorites();
   }, []);
 
   // Fetch recipes when category changes
@@ -51,14 +73,50 @@ const HomePage = () => {
     loadRecipes();
   }, [selectedCategory]);
 
-  const handleFavoriteClick = (recipe: Recipe) => {
-    console.log('Favorite clicked:', recipe.strMeal);
-    // Show auth popup instead of alert
-    setShowAuthPopup(true);
+  const handleFavoriteClick = async (recipe: Recipe) => {
+    console.log('Favorite clicked for recipe:', recipe.idMeal);
+    
+    // Check if user is authenticated
+    if (!isAuthenticated()) {
+      console.log('User not authenticated, showing popup');
+      setShowAuthPopup(true);
+      return;
+    }
+
+    // Check if already favorited
+    if (favoriteIds.includes(recipe.idMeal)) {
+      console.log('Recipe already in favorites');
+      alert('This recipe is already in your favorites!');
+      return;
+    }
+
+    try {
+      console.log('Adding to favorites...');
+      const response = await addToFavorites(recipe.idMeal);
+      
+      console.log('Add to favorites response:', response);
+      
+      if (response.flag) {
+        // Success - add to local favorites list
+        setFavoriteIds(prev => [...prev, recipe.idMeal]);
+        alert('Added to favorites! ❤️');
+        
+        // Reload favorites to sync
+        const updatedFavorites = await getFavorites();
+        setFavoriteIds(updatedFavorites.map(fav => fav.mealId));
+      } else {
+        alert(response.message || 'Failed to add to favorites');
+      }
+    } catch (error: any) {
+      console.error('Error adding to favorites:', error);
+      alert(error.message || 'Failed to add to favorites. Please try again.');
+    }
   };
 
   const handleLoadMore = () => {
     console.log('Load more clicked');
+    // TODO: Implement pagination if needed
+    alert('Load more functionality coming soon!');
   };
 
   if (loading) {
@@ -91,6 +149,7 @@ const HomePage = () => {
               <RecipeGrid 
                 recipes={recipes}
                 onFavoriteClick={handleFavoriteClick}
+                favoriteIds={favoriteIds}
               />
 
               {/* Load More Button */}

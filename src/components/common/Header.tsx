@@ -1,14 +1,51 @@
-import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+// src/components/common/Header.tsx
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Menu, X, LogOut, User as UserIcon } from 'lucide-react';
+import { isAuthenticated, getCurrentUser, logout } from '../../services/authService';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const location = useLocation();
-  const isLoggedIn = false; // Placeholder
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check authentication status
+    const checkAuth = () => {
+      const authenticated = isAuthenticated();
+      setIsLoggedIn(authenticated);
+      
+      if (authenticated) {
+        const currentUser = getCurrentUser();
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+    };
+
+    checkAuth();
+
+    // Listen for storage changes (for multi-tab support)
+    window.addEventListener('storage', checkAuth);
+    
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+    };
+  }, [location]);
 
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsLoggedIn(false);
+    setUser(null);
+    setIsUserMenuOpen(false);
+    navigate('/');
   };
 
   return (
@@ -70,10 +107,44 @@ const Header = () => {
 
           {/* Desktop User Profile / Login */}
           <div className="hidden md:flex items-center">
-            {isLoggedIn ? (
-              <button className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                <span className="text-gray-600 font-medium">U</span>
-              </button>
+            {isLoggedIn && user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-semibold text-sm">
+                      {user.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-semibold text-gray-900">{user.name}</p>
+                    <p className="text-xs text-gray-500">{user.email}</p>
+                  </div>
+                </button>
+
+                {/* User Dropdown Menu */}
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
+                    <Link
+                      to="/profile"
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <UserIcon size={16} />
+                      Profile
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                      <LogOut size={16} />
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link 
                 to="/login"
@@ -131,10 +202,30 @@ const Header = () => {
                 Help
               </Link>
               <div className="pt-4 border-t border-gray-200">
-                {isLoggedIn ? (
-                  <button className="w-full flex items-center justify-center gap-2 py-2 bg-gray-200 rounded-lg">
-                    <span className="text-gray-600 font-medium">Profile</span>
-                  </button>
+                {isLoggedIn && user ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 px-3 py-2 bg-gray-50 rounded-lg">
+                      <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-semibold text-sm">
+                          {user.name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">{user.name}</p>
+                        <p className="text-xs text-gray-500">{user.email}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full flex items-center justify-center gap-2 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                    >
+                      <LogOut size={18} />
+                      Logout
+                    </button>
+                  </div>
                 ) : (
                   <Link 
                     to="/login"
