@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build", // 🔄 removed "tsc -b" to prevent strict TS errors during Netlify build
+    "build": "vite build", 
     "lint": "eslint .",
     "preview": "vite preview"
   },
