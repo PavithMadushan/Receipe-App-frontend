@@ -2,9 +2,9 @@
 import axios from 'axios';
 
 // Get API base URL from environment variables
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://www.pavithrajapaksha.somee.com';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
-console.log('🌐 API Base URL:', API_BASE_URL);
+console.log('🌐 API Base URL (resolved):', API_BASE_URL);
 
 // Create axios instance
 const api = axios.create({
@@ -12,7 +12,6 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  // Add timeout
   timeout: 30000, // 30 seconds
 });
 
@@ -23,12 +22,12 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`, {
       headers: config.headers,
       data: config.data,
     });
-    
+
     return config;
   },
   (error) => {
@@ -52,16 +51,13 @@ api.interceptors.response.use(
     });
 
     if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user_data');
-      
-      // Only redirect if not already on login page
       if (window.location.pathname !== '/login') {
         window.location.href = '/login';
       }
     }
-    
+
     return Promise.reject(error);
   }
 );
