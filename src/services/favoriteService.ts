@@ -1,6 +1,6 @@
 // src/services/favoritesService.ts
 import api from './api';
-import { getToken, isAuthenticated } from './authService';
+import { getToken } from './authService';
 
 export interface FavoriteRecipe {
   id: number;

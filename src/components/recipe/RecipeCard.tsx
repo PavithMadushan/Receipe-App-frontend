@@ -10,7 +10,7 @@ interface RecipeCardProps {
 }
 
 const RecipeCard = ({ recipe, onFavoriteClick, isFavorite = false }: RecipeCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
   const handleCardClick = () => {
