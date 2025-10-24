@@ -7,7 +7,7 @@ import Loader from '../components/common/Loader';
 import Footer from '../components/common/Footer';
 import AuthPopup from '../components/auth/AuthPopup';
 import { fetchCategories, fetchRecipesByCategory } from '../services/recipeService';
-import { addToFavorites, getFavorites } from '../services/favoritesService';
+import { addToFavorites, getFavorites } from '../services/favoriteService';
 import { isAuthenticated } from '../services/authService';
 import type { Category, Recipe } from '../types/recipe';
 

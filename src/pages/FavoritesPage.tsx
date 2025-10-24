@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Heart, Trash2, ChefHat } from 'lucide-react';
-import { getFavorites, removeFromFavorites, FavoriteRecipe } from '../services/favoritesService';
+import { getFavorites, removeFromFavorites, type FavoriteRecipe } from '../services/favoriteService';
 import { isAuthenticated } from '../services/authService';
 import Loader from '../components/common/Loader';
 import Footer from '../components/common/Footer';
