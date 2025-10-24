@@ -90,19 +90,7 @@ const Header = () => {
                 <span className="absolute -bottom-4 left-0 right-0 h-0.5 bg-green-500"></span>
               )}
             </Link>
-            <Link 
-              to="/help" 
-              className={`font-medium transition-colors relative ${
-                isActive('/help') 
-                  ? 'text-green-500' 
-                  : 'text-gray-700 hover:text-green-500'
-              }`}
-            >
-              Help
-              {isActive('/help') && (
-                <span className="absolute -bottom-4 left-0 right-0 h-0.5 bg-green-500"></span>
-              )}
-            </Link>
+            
           </nav>
 
           {/* Desktop User Profile / Login */}
