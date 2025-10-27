@@ -1,4 +1,3 @@
-// src/pages/FavoritesPage.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -12,16 +11,14 @@ const FavoritesPage = () => {
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState<FavoriteRecipe[]>([]);
   const [loading, setLoading] = useState(true);
-  const [removingId, setRemovingId] = useState<number | null>(null);
+  const [removingId, setRemovingId] = useState<string | null>(null); // 🟢 changed to string (mealId)
 
   useEffect(() => {
-    // Check if user is authenticated
     if (!isAuthenticated()) {
       navigate('/login');
       return;
     }
 
-    // Load favorites
     const loadFavorites = async () => {
       try {
         const data = await getFavorites();
@@ -38,19 +35,17 @@ const FavoritesPage = () => {
     loadFavorites();
   }, [navigate]);
 
-  const handleRemove = async (favoriteId: number) => {
-    if (!confirm('Are you sure you want to remove this recipe from favorites?')) {
-      return;
-    }
+  const handleRemove = async (mealId: string) => {
+    if (!confirm('Are you sure you want to remove this recipe from favorites?')) return;
 
-    setRemovingId(favoriteId);
-    
+    setRemovingId(mealId); // 🟢 track by mealId instead of numeric id
+
     try {
-      const response = await removeFromFavorites(favoriteId);
-      
+      const response = await removeFromFavorites(parseInt(mealId, 10));
+
       if (response.flag) {
-        // Remove from local state
-        setFavorites(prev => prev.filter(fav => fav.id !== favoriteId));
+        // 🟢 Fix: filter by mealId instead of id (so UI updates immediately)
+        setFavorites(prev => prev.filter(fav => fav.mealId !== mealId));
         alert('Removed from favorites!');
       } else {
         alert(response.message || 'Failed to remove from favorites');
@@ -115,7 +110,7 @@ const FavoritesPage = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {favorites.map((favorite, index) => (
                 <motion.div
-                  key={favorite.id}
+                  key={favorite.mealId} // 🟢 changed key to mealId
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.05 }}
@@ -139,11 +134,11 @@ const FavoritesPage = () => {
 
                     {/* Remove Button */}
                     <button
-                      onClick={() => handleRemove(favorite.id)}
-                      disabled={removingId === favorite.id}
+                      onClick={() => handleRemove(favorite.mealId)}
+                      disabled={removingId === favorite.mealId} // 🟢 match removingId type
                       className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-red-50 transition-colors shadow-lg disabled:opacity-50"
                     >
-                      {removingId === favorite.id ? (
+                      {removingId === favorite.mealId ? (
                         <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
                       ) : (
                         <Trash2 size={16} className="text-red-500" />
